@@ -3,17 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Catálogo San Salvador</title>
+<title>Catálogo de lácteos San Salvador · Riobamba | Pedidos por WhatsApp</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Catálogo de productos lácteos San Salvador, Riobamba. Elige tus productos y envía tu pedido por WhatsApp.">
+<meta name="description" content="Catálogo de productos lácteos San Salvador, Riobamba: quesos, yogurt, kéfir, mantequilla, crema y manjar. Elige tus productos y envía tu pedido por WhatsApp.">
 <meta name="theme-color" content="#14245c">
-<link rel="icon" href="img/logo-blanco.webp">
+<link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+
+<!--
+  Vista previa al compartir el enlace (WhatsApp, Facebook, Telegram...).
+  TODO: cuando el catálogo esté publicado, reemplaza las dos rutas relativas de abajo
+  (og:url y og:image) por la dirección completa, p. ej. https://catalogo.netlify.app/img/compartir.jpg.
+  WhatsApp solo muestra la imagen si la URL es absoluta (empieza con https://).
+-->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_EC">
+<meta property="og:site_name" content="Productos San Salvador">
+<meta property="og:title" content="Catálogo de lácteos San Salvador">
+<meta property="og:description" content="Quesos, yogurt, kéfir, mantequilla y más, hechos en Riobamba. Arma tu pedido y envíalo por WhatsApp.">
+<meta property="og:url" content="./">
+<meta property="og:image" content="img/compartir.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logo de San Salvador con productos lácteos y la mascota de la marca">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Montserrat:wght@600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
 <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+<a class="saltar" href="#buscar">Saltar al catálogo</a>
 
 <header class="barra">
   <div class="barra-in">
@@ -37,7 +59,7 @@
         <p class="bajada">Elige presentación y sabor, revisa tu pedido y envíalo listo por WhatsApp.</p>
         <p class="firma">Hechos con amor</p>
       </div>
-      <img class="mascota" src="img/mascota.webp" alt="" width="246" height="360">
+      <img class="mascota" src="img/mascota.webp" alt="" width="258" height="329" fetchpriority="high">
     </div>
   </section>
 
@@ -50,7 +72,9 @@
     <nav class="chips" id="categorias" aria-label="Categorías"></nav>
   </div>
 
-  <div class="catalogo" id="catalogo" aria-live="polite"></div>
+  <p class="sr" id="resultados" role="status" aria-live="polite"></p>
+  <div class="catalogo" id="catalogo"></div>
+  <noscript><p class="aviso-nojs">Para ver el catálogo y armar tu pedido, activa JavaScript en tu navegador o escríbenos por WhatsApp al 099 194 1401.</p></noscript>
 </main>
 
 <footer class="pie">
@@ -88,7 +112,7 @@
     <div class="hoja-scroll" id="paso-lista">
       <ul class="lineas" id="lineas"></ul>
       <div class="vacio" id="pedido-vacio" hidden>
-        <img src="img/mascota-chef.webp" alt="" width="360" height="300" loading="lazy">
+        <img src="img/mascota-chef.webp" alt="" width="293" height="264" loading="lazy">
         <p><strong>Tu pedido está vacío.</strong></p>
         <p>Abre un producto, elige la presentación y agrégalo.</p>
         <button class="btn btn-secundario" type="button" data-cerrar>Ver catálogo</button>

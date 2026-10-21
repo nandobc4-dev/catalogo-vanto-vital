@@ -18,6 +18,8 @@ catalogo-san-salvador/
 │   └── app.js          Lógica: filtros, búsqueda, carrito, localStorage, mensaje de WhatsApp
 └── img/
     ├── logo-blanco.webp, mascota.webp, mascota-chef.webp
+    ├── compartir.jpg   Imagen de la vista previa al compartir el enlace (1200×630)
+    ├── favicon-48.png, apple-touch-icon.png, icono-192.png, icono-512.png
     └── productos/      Fotos extraídas del catálogo PDF (WebP)
         ├── <producto>.webp          foto de estudio (tarjeta)
         ├── <producto>-foto.webp     foto ambientada (detalle)
@@ -96,6 +98,8 @@ Busca `TODO` en el proyecto. Pendientes:
 2. **Número de WhatsApp**: se usó 0991941401 (el primero del catálogo); el otro número publicado es 0995984982.
 3. **Especias del Queso Andino**: el catálogo menciona natural, orégano, ají, albahaca e higo; confirmar disponibilidad por presentación.
 4. **Aviso de precios** en `config.js`.
+5. **Vista previa al compartir**: después de publicar, cambia en `index.html` las etiquetas `og:url` y `og:image` por la dirección completa (`https://…/img/compartir.jpg`). WhatsApp no muestra la imagen con rutas relativas. Para comprobarlo, pega el enlace en https://developers.facebook.com/tools/debug/ (WhatsApp usa los mismos datos).
+6. Si cambias el número de WhatsApp, cámbialo también en el aviso `<noscript>` de `index.html`.
 
 Supuestos tomados del PDF:
 

@@ -16,6 +16,8 @@
   const dinero = (centavos) => formato.format(centavos / 100);
   const aCentavos = (precio) => (typeof precio === "number" ? Math.round(precio * 100) : null);
   const normalizar = (s) => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  // Para buscar, "1kg" y "1 kg" (o "500g" y "500 g") cuentan como lo mismo.
+  const normalizarBusqueda = (s) => normalizar(s).replace(/(\d)\s+(?=(kg|g|ml|l)\b)/g, "$1");
   const esc = (s) =>
     String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
@@ -44,7 +46,7 @@
     DATA.productos.map((p) => {
       const partes = [p.nombre, p.resumen, p.descripcion, categorias.get(p.categoria)?.nombre, ...(p.variantes || [])];
       p.presentaciones.forEach((pr) => partes.push(pr.nombre, pr.grupo, pr.detalle, ...(pr.variantes || [])));
-      return [p.id, normalizar(partes.filter(Boolean).join(" "))];
+      return [p.id, normalizarBusqueda(partes.filter(Boolean).join(" "))];
     })
   );
 
@@ -181,7 +183,7 @@
     const nPres = p.presentaciones.length;
     const precioTxt = desde === null ? "Precio a consultar" : `${nPres > 1 ? "Desde" : "Precio"} <strong>${dinero(desde)}</strong>`;
     return `<article class="tarjeta" data-producto="${esc(p.id)}">
-      <img class="tarjeta-img" src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy" width="560" height="560">
+      <img class="tarjeta-img" src="${esc(p.imagen)}" alt="" loading="lazy" decoding="async" width="560" height="560">
       <span class="en-pedido" hidden></span>
       <div class="tarjeta-cuerpo">
         <h3><button type="button" class="tarjeta-enlace" data-abrir="${esc(p.id)}">${esc(p.nombre)}</button></h3>
@@ -195,7 +197,7 @@
   }
 
   function pintarCatalogo() {
-    const texto = normalizar(filtro.texto.trim());
+    const texto = normalizarBusqueda(filtro.texto.trim());
     const palabras = texto.split(/\s+/).filter(Boolean);
     const visibles = DATA.productos.filter(
       (p) =>
@@ -203,9 +205,14 @@
         palabras.every((w) => indiceBusqueda.get(p.id).includes(w))
     );
 
+    // Anuncia el número de resultados a los lectores de pantalla (el catálogo en sí no se lee completo).
+    $("#resultados").textContent = visibles.length
+      ? plural(visibles.length, "producto encontrado", "productos encontrados")
+      : "No hay productos que coincidan";
+
     if (!visibles.length) {
       elCatalogo.innerHTML = `<div class="vacio">
-        <img src="img/mascota-chef.webp" alt="" loading="lazy">
+        <img src="img/mascota-chef.webp" alt="" width="293" height="264">
         <p><strong>No encontramos “${esc(filtro.texto.trim())}”${filtro.categoria !== "todas" ? ` en ${esc(categorias.get(filtro.categoria).nombre)}` : ""}.</strong></p>
         <p>Prueba con otra palabra o mira todo el catálogo.</p>
         <button type="button" class="btn btn-secundario" data-limpiar>Ver todo el catálogo</button>
