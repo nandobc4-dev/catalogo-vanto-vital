@@ -16,7 +16,3 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
-[[headers]]
-  for = "/*.{jpg,jpeg,png,webp,svg,gif}"
-  [headers.values]
-    Cache-Control = "public, max-age=604800"
