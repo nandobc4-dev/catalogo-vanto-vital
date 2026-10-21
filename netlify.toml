@@ -1,0 +1,22 @@
+# Configuración de publicación en Netlify.
+# Cada fusión en main publica el sitio; cada PR genera una vista previa.
+
+[build]
+  # Sitio estático: se publica la raíz del repo tal cual.
+  # Si el catálogo pasa a tener paso de build, cambiar a p. ej.:
+  #   command = "npm run build"
+  #   publish = "dist"
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/*.{jpg,jpeg,png,webp,svg,gif}"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
